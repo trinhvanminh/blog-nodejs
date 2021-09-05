@@ -51,3 +51,38 @@
 12. Express.Router
     - :slug
     - [mongoose-slug-generator](https://www.npmjs.com/package/mongoose-slug-generator) / unique: true
+
+13. express middleware [method-override](http://expressjs.com/en/resources/middleware/method-override.html) `npm install method-override`
+  ```javascript 
+      var methodOverride = require('method-override')  
+      // override with POST having ?_method=DELETE
+      app.use(methodOverride('_method'))
+   ```
+   ```html 
+      <form method="POST" action="/resource?_method=DELETE">
+         <button type="submit">Delete resource</button>
+      </form>
+   ```
+
+14. express-handlebars helpers
+   ```javascript
+      app.engine(
+        	".hbs",
+        	exphbs({
+        		extname: ".hbs",
+        		helpers: {
+        			sum: (a , b) => a + b,
+        			formatTs: ts => ts ? ts.toLocaleDateString() : '',
+        		}
+        	})
+      );
+   ```
+   * in .handlebars (.hbs)
+   ```html
+       
+      {{sum @index 1}}
+      <!-- or -->
+      {{formatTs Date.now}}
+   ```
+
+15. 
