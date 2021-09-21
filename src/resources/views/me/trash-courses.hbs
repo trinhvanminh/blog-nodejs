@@ -1,6 +1,6 @@
 <div>
-    <h1 class="mt-4">Khoá học của tôi</h1>
-    <a href="/me/trash/courses">Thùng rác</a>
+    <h1 class="mt-4">Khoá học đã xoá</h1>
+    <a href="/me/stored/courses">Quay lại</a>
 </div>
 <table class="table mt-4">
     <thead>
@@ -18,16 +18,16 @@
                 <td width="200">{{this.name}}</td>
                 <td>{{this.description}}</td>
                 <td width="140" class="text-center">{{formatTs this.createdAt}}</td>
-                <td width="140" class="text-center">
-                    <a href="/courses/{{this._id}}/edit" class="btn btn-link">Sửa</a>
+                <td width="160" class="text-center">
+                    <a href="" data-id={{this._id}} class="btn btn-link btn-restore">Khôi phục</a>
                     <!-- Button trigger modal -->
-                    <button class="btn btn-link" data-toggle="modal" data-target="#confirm-delete-course" data-id="{{this._id}}">Xoá</button>
+                    <button class="btn btn-link" data-toggle="modal" data-target="#confirm-delete-course" data-id="{{this._id}}">Xoá vĩnh viễn</button>
                 </td>
             </tr>
         {{else}} 
             <tr>
-                <td class="text-center" colspan="5">Bạn chưa đăng khoá học nào.
-                    <a href="/courses/create">Đăng khoá học.</a>
+                <td class="text-center" colspan="5">Thùng rác trống.
+                    <a href="/me/stored/courses">Danh sách khoá học.</a>
                 </td>
             </tr>
         {{/each}}
@@ -49,11 +49,11 @@
             </button>
         </div>
         <div class="modal-body">
-            Bạn thật sự muốn xoá?
+            Dữ liệu sẽ không thể khôi phục sau khi xoá!!!
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
-            <button id="btn-del-course"type="button" class="btn btn-danger">Xoá bỏ</button>
+            <button id="btn-del-course"type="button" class="btn btn-danger">Xoá hoàn toàn</button>
         </div>
         </div>
     </div>
@@ -61,14 +61,17 @@
 
 
 {{!-- delete hidden form --}}
-<form id="delete-course-form" method="POST"></form>
+<form id="force-delete-course-form" method="POST"></form>
+<form id="restore-course-form" method="POST"></form>
 
 
 <script>
     //DOMContentLoaded because this script need jQuery loaded before running
     document.addEventListener("DOMContentLoaded", function(e) {
         var courseId;
-        var deleteForm = document.forms['delete-course-form']
+        var deleteForm = document.forms['force-delete-course-form'];
+        var restoreForm = document.forms['restore-course-form'];
+        var restoreBtn = $('.btn-restore');
 
         $('#confirm-delete-course').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
@@ -76,9 +79,16 @@
         })
 
         $('#btn-del-course').on('click', function() {
-            deleteForm.action = '/courses/' + courseId + '?_method=DELETE';
+            deleteForm.action = '/courses/' + courseId + '/force?_method=DELETE';
             deleteForm.submit();
         })
+
+        restoreBtn.click(function (e) {
+            e.preventDefault();
+            var courseId = $(this).data('id');
+            restoreForm.action = '/courses/' + courseId + '/restore?_method=PATCH';
+            restoreForm.submit();
+        });
 
     })
 </script>
