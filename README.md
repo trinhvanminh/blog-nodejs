@@ -85,4 +85,13 @@
       {{formatTs Date.now}}
    ```
 
-15. 
+15. soft delete with [mongoose-delete](https://github.com/dsanel/mongoose-delete) (add `deleted`: boolean, `deletedAt`: timestamps)
+   ```javascript
+      const mongooseDelete = require("mongoose-delete"); //sort delete
+      mongoose.plugin(mongooseDelete, { deletedAt: true, overrideMethods: "all" });
+   ```
+   [method override:](https://github.com/dsanel/mongoose-delete#method-overridden) 
+   - delete
+   - findDeleted
+   - countDocumentsDeleted / countDeleted
+   - restore  
