@@ -8,7 +8,7 @@
             <th scope="col">#</th>
             <th scope="col">Tên khoá học</th>
             <th scope="col">Mô tả</th>
-            <th scope="col" colspan="2">Thời gian tạo</th>
+            <th scope="col" colspan="2">Thời gian xoá</th>
         </tr>
     </thead>
     <tbody>
@@ -17,7 +17,7 @@
                 <th scope="row">{{sum @index 1}}</th>
                 <td width="200">{{this.name}}</td>
                 <td>{{this.description}}</td>
-                <td width="140" class="text-center">{{formatTs this.createdAt}}</td>
+                <td width="140" class="text-center">{{formatTs this.deletedAt}}</td>
                 <td width="160" class="text-center">
                     <a href="" data-id={{this._id}} class="btn btn-link btn-restore">Khôi phục</a>
                     <!-- Button trigger modal -->
